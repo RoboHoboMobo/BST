@@ -31,6 +31,9 @@ private:
     Node* getSuccessor(Node*);
     Node* getPredecessor(Node*);
 
+    void clear(Node*);
+    Node* copy(Node* node, Node* parent, size_t& counter);
+
     Node* m_root;
     size_t m_size;
 };
@@ -40,6 +43,8 @@ struct BinarySearchTree<T>::Node
 {
     Node();
     Node(const T& key);
+    Node(const Node&) = delete;
+    Node& operator=(const Node&) = delete;
 
     void erase();
 

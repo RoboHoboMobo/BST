@@ -42,16 +42,39 @@ BinarySearchTree<T>::BinarySearchTree(const BinarySearchTree& bst)
     : m_root{}
     , m_size{}
 {
+    Node* root = bst.m_root;
+
+    Node* node = copy(root, {}, m_size);
+
+    while (node->parent)
+        node = node->parent;
+
+    m_root = node;
 }
 
 template <typename T>
-BinarySearchTree<T>& BinarySearchTree<T>::operator=(const BinarySearchTree& bst)
+BinarySearchTree<T>& BinarySearchTree<T>::operator=(const BinarySearchTree& lhs)
 {
+    if (lhs.m_root == m_root)
+        return *this;
+
+    clear();
+
+    Node* lhsRoot = lhs.m_root;
+    Node* node = copy(lhsRoot, {}, m_size);
+
+    while (node->parent)
+        node = node->parent;
+
+    m_root = node;
+
+    return *this;
 }
 
 template <typename T>
 BinarySearchTree<T>::~BinarySearchTree()
 {
+    clear();
 }
 
 template <typename T>
@@ -185,7 +208,12 @@ void BinarySearchTree<T>::erase(const T& key)
 template <typename T>
 void BinarySearchTree<T>::clear()
 {
+    clear(m_root);
 
+    delete m_root;
+    m_root = {};
+
+    m_size = 0;
 }
 
 template <typename T>
@@ -272,6 +300,37 @@ typename BinarySearchTree<T>::Node* BinarySearchTree<T>::getPredecessor(Node* no
     }
 
     return parent;
+}
+
+template <typename T>
+void BinarySearchTree<T>::clear(Node* node)
+{
+    Node* current = node;
+
+    if (!node)
+        return;
+
+    clear(current->leftChild);
+    clear(current->rightChild);
+    current->erase();
+}
+
+template <typename T>
+typename BinarySearchTree<T>::Node* BinarySearchTree<T>::copy(Node* node, Node* parent,
+                                                              size_t& counter)
+{
+    if (!node)
+        return {};
+
+    ++counter;
+
+    Node* current = new Node(node->data);
+    current->parent = parent;
+
+    copy(node->leftChild, current, counter);
+    copy(node->rightChild, current, counter);
+
+    return current;
 }
 
 
