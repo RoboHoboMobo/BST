@@ -1,5 +1,7 @@
 #include "BinarySearchTree.h"
 
+#include <iostream>
+
 namespace Custom {
 
 template <typename T>
@@ -53,15 +55,15 @@ BinarySearchTree<T>::BinarySearchTree(const BinarySearchTree& bst)
 }
 
 template <typename T>
-BinarySearchTree<T>& BinarySearchTree<T>::operator=(const BinarySearchTree& lhs)
+BinarySearchTree<T>& BinarySearchTree<T>::operator=(const BinarySearchTree& rhs)
 {
-    if (lhs.m_root == m_root)
+    if (rhs.m_root == m_root)
         return *this;
 
     clear();
 
-    Node* lhsRoot = lhs.m_root;
-    Node* node = copy(lhsRoot, {}, m_size);
+    Node* rhsRoot = rhs.m_root;
+    Node* node = copy(rhsRoot, {}, m_size);
 
     while (node->parent)
         node = node->parent;
@@ -78,9 +80,31 @@ BinarySearchTree<T>::~BinarySearchTree()
 }
 
 template <typename T>
+bool BinarySearchTree<T>::operator==(const BinarySearchTree& rhs) const
+{
+    if (rhs.m_root == m_root)
+        return true;
+
+    if (m_size != rhs.m_size)
+        return false;
+
+    Node* lhsRoot = m_root;
+    Node* rhsRoot = rhs.m_root;
+
+    return isEqual(lhsRoot, rhsRoot);
+}
+
+template <typename T>
+bool BinarySearchTree<T>::operator!=(const BinarySearchTree& rhs) const
+{
+    return !(*this == rhs);
+}
+
+
+template <typename T>
 inline bool BinarySearchTree<T>::empty() const
 {
-    return m_size;
+    return m_size == 0;
 }
 
 template <typename T>
@@ -327,11 +351,31 @@ typename BinarySearchTree<T>::Node* BinarySearchTree<T>::copy(Node* node, Node* 
     Node* current = new Node(node->data);
     current->parent = parent;
 
+    if (node->parent) {
+        if (node == node->parent->leftChild)
+            parent->leftChild = current;
+        else
+            parent->rightChild = current;
+    }
+
     copy(node->leftChild, current, counter);
     copy(node->rightChild, current, counter);
 
     return current;
 }
 
+template <typename T>
+bool BinarySearchTree<T>::isEqual(Node* lhs, Node* rhs) const
+{
+    if (!lhs && !rhs)
+        return true;
+
+    if (lhs && rhs)
+        return lhs->data == rhs->data &&
+               isEqual(lhs->leftChild, rhs->leftChild) &&
+               isEqual(lhs->rightChild, rhs->rightChild);
+
+    return {};
+}
 
 }

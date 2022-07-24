@@ -16,6 +16,9 @@ public:
     BinarySearchTree& operator=(const BinarySearchTree&);
     virtual ~BinarySearchTree();
 
+    bool operator==(const BinarySearchTree&) const;
+    bool operator!=(const BinarySearchTree&) const;
+
     inline bool empty() const;
     inline size_t size() const;
 
@@ -33,6 +36,7 @@ private:
 
     void clear(Node*);
     Node* copy(Node* node, Node* parent, size_t& counter);
+    bool isEqual(Node* lhs, Node* rhs) const;
 
     Node* m_root;
     size_t m_size;
