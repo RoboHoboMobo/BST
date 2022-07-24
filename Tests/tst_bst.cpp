@@ -2,6 +2,8 @@
 
 #include "BinarySearchTree.h"
 
+#include <vector>
+
 using BST = typename Custom::BinarySearchTree<int>;
 
 class TestBST : public QObject
@@ -28,6 +30,11 @@ private slots:
 
     void testCopyConstructor();
     void testCopyAssigment();
+
+    void testIteratorPrefixIncrementIfEmpty();
+    void testIteratorPrefixIncrementIfNotEmpty();
+
+    void testIteratorIsEqualIfEmpty();
 };
 
 TestBST::TestBST()
@@ -261,6 +268,45 @@ void TestBST::testCopyAssigment()
     QVERIFY(actual == expected);
 }
 
+void TestBST::testIteratorPrefixIncrementIfEmpty()
+{
+    BST bst;
+    size_t counter{};
+
+    for (BST::iterator it = bst.begin(); it != bst.end(); ++it)
+        counter++;
+
+    QCOMPARE(counter, 0u);
+}
+
+void TestBST::testIteratorPrefixIncrementIfNotEmpty()
+{
+    const std::vector<int> keys{4, 2, 1, 3, 10, 6, 7};
+    const std::vector<int> sorted{1, 2, 3, 4, 6, 7, 10};
+
+    BST bst;
+
+    for (auto key : keys)
+        bst.insert(key);
+
+    size_t counter{};
+
+    BST::iterator it = bst.begin();
+
+    for (; it != bst.end(); ++it)
+        QVERIFY(*it == sorted[counter++]);
+
+    QCOMPARE(counter, 7u);
+}
+
+void TestBST::testIteratorIsEqualIfEmpty()
+{
+    BST bst;
+    BST::iterator begin = bst.begin();
+    BST::iterator end = bst.end();
+
+    QVERIFY(begin == end);
+}
 
 QTEST_APPLESS_MAIN(TestBST)
 

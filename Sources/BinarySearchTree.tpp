@@ -33,6 +33,61 @@ void BinarySearchTreeNode<T>::erase()
 }
 
 template <typename T>
+BinarySearchTreeNode<T>* BinarySearchTreeNode<T>::min()
+{
+    BinarySearchTreeNode* result = this;
+
+    while (result->leftChild)
+        result = result->leftChild;
+
+    return result;
+}
+template <typename T>
+BinarySearchTreeNode<T>* BinarySearchTreeNode<T>::max()
+{
+    BinarySearchTreeNode* result = this;
+
+    while (result->rightChild)
+        result = result->rightChild;
+
+    return result;
+}
+
+template <typename T>
+BinarySearchTreeNode<T>* BinarySearchTreeNode<T>::getPredecessor()
+{
+    if (leftChild)
+        return leftChild->max();
+
+    BinarySearchTreeNode* current = this;
+    BinarySearchTreeNode* p = parent;
+
+    while (p && current == p->leftChild) {
+        current = p;
+        p = current->parent;
+    }
+
+    return p;
+}
+
+template <typename T>
+BinarySearchTreeNode<T>* BinarySearchTreeNode<T>::getSuccessor()
+{
+    if (rightChild)
+        return rightChild->min();
+
+    BinarySearchTreeNode* current = this;
+    BinarySearchTreeNode* p = parent;
+
+    while (p && current == p->rightChild) {
+        current = p;
+        p = current->parent;
+    }
+
+    return p;
+}
+
+template <typename T>
 BinarySearchTree<T>::BinarySearchTree()
     : m_root{}
     , m_size{}
@@ -256,6 +311,18 @@ typename BinarySearchTree<T>::Node* BinarySearchTree<T>::find(const T& key) cons
     }
 
     return {};
+}
+
+template <typename T>
+typename BinarySearchTree<T>::iterator BinarySearchTree<T>::begin()
+{
+    return min(m_root);
+}
+
+template <typename T>
+typename BinarySearchTree<T>::iterator BinarySearchTree<T>::end()
+{
+    return nullptr;
 }
 
 template <typename T>

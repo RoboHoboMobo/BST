@@ -8,6 +8,9 @@ namespace Custom
 template <typename T>
 class BinarySearchTree;
 
+template <typename BinarySearchTree>
+class BinarySearchTreeIterator;
+
 template <typename T>
 struct BinarySearchTreeNode
 {
@@ -16,9 +19,15 @@ struct BinarySearchTreeNode
     BinarySearchTreeNode();
     BinarySearchTreeNode(const T& key);
     BinarySearchTreeNode(const BinarySearchTreeNode&) = delete;
-    BinarySearchTreeNode& operator=(const BinarySearchTreeNode&) = delete;
+    BinarySearchTreeNode& operator=(const BinarySearchTreeNode&) = default;
 
     void erase();
+
+    BinarySearchTreeNode* min();
+    BinarySearchTreeNode* max();
+
+    BinarySearchTreeNode* getPredecessor();
+    BinarySearchTreeNode* getSuccessor();
 
     T data;
     BinarySearchTreeNode* parent;
@@ -32,6 +41,7 @@ class BinarySearchTree
 public:
     using ValueType = T;
     using Node = BinarySearchTreeNode<T>;
+    using iterator = BinarySearchTreeIterator<BinarySearchTree<T>>;
 public:
     BinarySearchTree();
     BinarySearchTree(const BinarySearchTree&);
@@ -50,6 +60,9 @@ public:
 
     Node* find(const T&) const;
 
+    iterator begin();
+    iterator end();
+
 private:
     Node* min(Node*);
     Node* max(Node*);
@@ -62,6 +75,85 @@ private:
 
     Node* m_root;
     size_t m_size;
+};
+
+template <typename BinarySearchTree>
+class BinarySearchTreeIterator
+{
+public:
+    using ValueType = typename BinarySearchTree::ValueType;
+    using PointerType = BinarySearchTreeNode<ValueType>*;
+    using ReferenceType = ValueType&;
+public:
+    BinarySearchTreeIterator(PointerType ptr)
+        : m_ptr{ptr}
+    {
+    }
+
+    BinarySearchTreeIterator& operator++()
+    {
+        if (!m_ptr)
+            return *this;
+
+        m_ptr = m_ptr->getSuccessor();
+
+        return *this;
+    }
+
+    BinarySearchTreeIterator operator++(int)
+    {
+        if (!m_ptr)
+            return *this;
+
+        BinarySearchTreeIterator result = *this;
+        ++(*this);
+
+        return result;
+    }
+
+    BinarySearchTreeIterator& operator--()
+    {
+        if (!m_ptr)
+            return *this;
+
+        m_ptr = m_ptr->getPredecessor();
+
+        return *this;
+    }
+
+    BinarySearchTreeIterator operator--(int)
+    {
+        if (!m_ptr)
+            return *this;
+
+        BinarySearchTreeIterator result = *this;
+        --(*this);
+
+        return result;
+    }
+
+    bool operator==(const BinarySearchTreeIterator& rhs)
+    {
+        return m_ptr == rhs.m_ptr;
+    }
+
+    bool operator!=(const BinarySearchTreeIterator& rhs)
+    {
+        return !(*this == rhs);
+    }
+
+    PointerType operator->()
+    {
+        return m_ptr;
+    }
+
+    ReferenceType operator*()
+    {
+        return m_ptr->data;
+    }
+
+private:
+    PointerType m_ptr;
 };
 
 } // namespace Custom
