@@ -84,72 +84,19 @@ public:
     using PointerType = BinarySearchTreeNode<ValueType>*;
     using ReferenceType = ValueType&;
 public:
-    BinarySearchTreeIterator(PointerType ptr)
-        : m_ptr{ptr}
-    {
-    }
+    BinarySearchTreeIterator(PointerType ptr);
 
-    BinarySearchTreeIterator& operator++()
-    {
-        if (!m_ptr)
-            return *this;
+    BinarySearchTreeIterator& operator++();
+    BinarySearchTreeIterator operator++(int);
 
-        m_ptr = m_ptr->getSuccessor();
+    BinarySearchTreeIterator& operator--();
+    BinarySearchTreeIterator operator--(int);
 
-        return *this;
-    }
+    bool operator==(const BinarySearchTreeIterator& rhs);
+    bool operator!=(const BinarySearchTreeIterator& rhs);
 
-    BinarySearchTreeIterator operator++(int)
-    {
-        if (!m_ptr)
-            return *this;
-
-        BinarySearchTreeIterator result = *this;
-        ++(*this);
-
-        return result;
-    }
-
-    BinarySearchTreeIterator& operator--()
-    {
-        if (!m_ptr)
-            return *this;
-
-        m_ptr = m_ptr->getPredecessor();
-
-        return *this;
-    }
-
-    BinarySearchTreeIterator operator--(int)
-    {
-        if (!m_ptr)
-            return *this;
-
-        BinarySearchTreeIterator result = *this;
-        --(*this);
-
-        return result;
-    }
-
-    bool operator==(const BinarySearchTreeIterator& rhs)
-    {
-        return m_ptr == rhs.m_ptr;
-    }
-
-    bool operator!=(const BinarySearchTreeIterator& rhs)
-    {
-        return !(*this == rhs);
-    }
-
-    PointerType operator->()
-    {
-        return m_ptr;
-    }
-
-    ReferenceType operator*()
-    {
-        return m_ptr->data;
-    }
+    PointerType operator->();
+    ReferenceType operator*();
 
 private:
     PointerType m_ptr;

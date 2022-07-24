@@ -413,4 +413,84 @@ bool BinarySearchTree<T>::isEqual(Node* lhs, Node* rhs) const
     return {};
 }
 
+template <typename T>
+BinarySearchTreeIterator<T>::BinarySearchTreeIterator(PointerType ptr)
+    : m_ptr{ptr}
+{
 }
+
+template <typename T>
+BinarySearchTreeIterator<T>& BinarySearchTreeIterator<T>::operator++()
+{
+    if (!m_ptr)
+        return *this;
+
+    m_ptr = m_ptr->getSuccessor();
+
+    return *this;
+}
+
+template <typename T>
+BinarySearchTreeIterator<T> BinarySearchTreeIterator<T>::operator++(int)
+{
+    if (!m_ptr)
+        return *this;
+
+    BinarySearchTreeIterator result = *this;
+    ++(*this);
+
+    return result;
+}
+
+template <typename T>
+BinarySearchTreeIterator<T>& BinarySearchTreeIterator<T>::operator--()
+{
+    if (!m_ptr)
+        return *this;
+
+    m_ptr = m_ptr->getPredecessor();
+
+    return *this;
+}
+
+template <typename T>
+BinarySearchTreeIterator<T> BinarySearchTreeIterator<T>::operator--(int)
+{
+    if (!m_ptr)
+        return *this;
+
+    BinarySearchTreeIterator result = *this;
+    --(*this);
+
+    return result;
+}
+
+template <typename T>
+bool BinarySearchTreeIterator<T>::operator==(const BinarySearchTreeIterator& rhs)
+{
+    return m_ptr == rhs.m_ptr;
+}
+
+template <typename T>
+bool BinarySearchTreeIterator<T>::operator!=(const BinarySearchTreeIterator& rhs)
+{
+    return !(*this == rhs);
+}
+
+template <typename T>
+typename BinarySearchTreeIterator<T>::PointerType
+BinarySearchTreeIterator<T>::operator->()
+{
+    return m_ptr;
+}
+
+template <typename T>
+typename BinarySearchTreeIterator<T>::ReferenceType
+BinarySearchTreeIterator<T>::operator*()
+{
+    return m_ptr->data;
+}
+
+} // namespace Custom
+
+
