@@ -6,11 +6,33 @@ namespace Custom
 {
 
 template <typename T>
+class BinarySearchTree;
+
+template <typename T>
+struct BinarySearchTreeNode
+{
+    using ValueType = T;
+
+    BinarySearchTreeNode();
+    BinarySearchTreeNode(const T& key);
+    BinarySearchTreeNode(const BinarySearchTreeNode&) = delete;
+    BinarySearchTreeNode& operator=(const BinarySearchTreeNode&) = delete;
+
+    void erase();
+
+    T data;
+    BinarySearchTreeNode* parent;
+    BinarySearchTreeNode* leftChild;
+    BinarySearchTreeNode* rightChild;
+};
+
+template <typename T>
 class BinarySearchTree
 {
 public:
-    struct Node;
-
+    using ValueType = T;
+    using Node = BinarySearchTreeNode<T>;
+public:
     BinarySearchTree();
     BinarySearchTree(const BinarySearchTree&);
     BinarySearchTree& operator=(const BinarySearchTree&);
@@ -40,22 +62,6 @@ private:
 
     Node* m_root;
     size_t m_size;
-};
-
-template <typename T>
-struct BinarySearchTree<T>::Node
-{
-    Node();
-    Node(const T& key);
-    Node(const Node&) = delete;
-    Node& operator=(const Node&) = delete;
-
-    void erase();
-
-    T data;
-    Node* parent;
-    Node* leftChild;
-    Node* rightChild;
 };
 
 } // namespace Custom

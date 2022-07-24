@@ -5,7 +5,7 @@
 namespace Custom {
 
 template <typename T>
-BinarySearchTree<T>::Node::Node()
+BinarySearchTreeNode<T>::BinarySearchTreeNode()
     : data{}
     , parent{}
     , leftChild{}
@@ -14,7 +14,7 @@ BinarySearchTree<T>::Node::Node()
 }
 
 template <typename T>
-BinarySearchTree<T>::Node::Node(const T& key)
+BinarySearchTreeNode<T>::BinarySearchTreeNode(const T& key)
     : data{key}
     , parent{}
     , leftChild{}
@@ -23,7 +23,7 @@ BinarySearchTree<T>::Node::Node(const T& key)
 }
 
 template <typename T>
-void BinarySearchTree<T>::Node::erase()
+void BinarySearchTreeNode<T>::erase()
 {
     delete leftChild;
     leftChild = nullptr;
