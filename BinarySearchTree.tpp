@@ -12,8 +12,8 @@ BinarySearchTree<T>::Node::Node()
 }
 
 template <typename T>
-BinarySearchTree<T>::Node::Node(const T& value)
-    : data{value}
+BinarySearchTree<T>::Node::Node(const T& key)
+    : data{key}
     , parent{}
     , leftChild{}
     , rightChild{}
@@ -67,9 +67,11 @@ inline size_t BinarySearchTree<T>::size() const
 }
 
 template <typename T>
-void BinarySearchTree<T>::insert(const T& value)
+void BinarySearchTree<T>::insert(const T& key)
 {
-    Node* newNode = new Node(value);
+    ++m_size;
+
+    Node* newNode = new Node(key);
 
     if (!m_root) {
         m_root = newNode;
@@ -83,7 +85,7 @@ void BinarySearchTree<T>::insert(const T& value)
     while (current) {
         parent = current;
 
-        if (value < current->data)
+        if (key < current->data)
             current = current->leftChild;
         else
             current = current->rightChild;
@@ -91,41 +93,25 @@ void BinarySearchTree<T>::insert(const T& value)
 
     newNode->parent = parent;
 
-    if (value < parent->data)
+    if (key < parent->data)
         parent->leftChild = newNode;
     else
         parent->rightChild = newNode;
-
 }
 
 template <typename T>
-void BinarySearchTree<T>::erase(const T& value)
+void BinarySearchTree<T>::erase(const T& key)
 {
-    Node* node = find(value);
+    Node* node = find(key);
 
     if (!node)
         return;
 
+    --m_size;
+
     Node* parent = node->parent;
     Node* leftChild = node->leftChild;
     Node* rightChild = node->rightChild;
-
-/*
-    if (!leftChild && !rightChild) {
-        if (node == m_root)
-            m_root = {};
-        else {
-            if (node == parent->leftChild)
-                parent->leftChild = {};
-            else
-                parent->rightChild = {};
-        }
-
-        delete node;
-
-        return;
-    }
-*/
 
     if (!leftChild) {
         if (node == m_root) {
@@ -166,7 +152,7 @@ void BinarySearchTree<T>::erase(const T& value)
         return;
     }
 
-    Node* successor = min(rightChild);
+    Node* successor = getSuccessor(node);
     Node* oldRightChild = successor->rightChild;
 
     successor->rightChild = rightChild;
@@ -197,18 +183,26 @@ void BinarySearchTree<T>::erase(const T& value)
 }
 
 template <typename T>
-void BinarySearchTree<T>::swap(BinarySearchTree& bst)
-{
-}
-
-template <typename T>
 void BinarySearchTree<T>::clear()
 {
+
 }
 
 template <typename T>
-typename BinarySearchTree<T>::Node* BinarySearchTree<T>::find(const T&) const
+typename BinarySearchTree<T>::Node* BinarySearchTree<T>::find(const T& key) const
 {
+    Node* current = m_root;
+
+    while (current) {
+        if (key == current->data)
+            return current;
+
+        if (key < current->data)
+            current = current->leftChild;
+        else
+            current = current->rightChild;
+    }
+
     return {};
 }
 
@@ -238,6 +232,46 @@ typename BinarySearchTree<T>::Node* BinarySearchTree<T>::max(Node* node)
         result = result->rightChild;
 
     return result;
+}
+
+template <typename T>
+typename BinarySearchTree<T>::Node* BinarySearchTree<T>::getSuccessor(Node* node)
+{
+    if (!node)
+        return {};
+
+    if (node->rightChild)
+        return min(node->rightChild);
+
+    Node* current = node;
+    Node* parent = node->parent;
+
+    while (parent && current == parent->rightChild) {
+        current = parent;
+        parent = current->parent;
+    }
+
+    return parent;
+}
+
+template <typename T>
+typename BinarySearchTree<T>::Node* BinarySearchTree<T>::getPredecessor(Node* node)
+{
+    if (!node)
+        return {};
+
+    if (node->leftChild)
+        return max(node->leftChild);
+
+    Node* current = node;
+    Node* parent = node->parent;
+
+    while (parent && current == parent->leftChild) {
+        current = parent;
+        parent = current->parent;
+    }
+
+    return parent;
 }
 
 
