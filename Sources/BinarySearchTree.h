@@ -25,7 +25,6 @@ struct BinarySearchTreeNode
 
     BinarySearchTreeNode* min();
     BinarySearchTreeNode* max();
-
     BinarySearchTreeNode* getPredecessor();
     BinarySearchTreeNode* getSuccessor();
 
@@ -66,8 +65,8 @@ public:
 private:
     Node* min(Node*);
     Node* max(Node*);
-    Node* getSuccessor(Node*);
     Node* getPredecessor(Node*);
+    Node* getSuccessor(Node*);
 
     void clear(Node*);
     Node* copy(Node* node, Node* parent, size_t& counter);

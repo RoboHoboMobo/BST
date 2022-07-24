@@ -331,12 +331,7 @@ typename BinarySearchTree<T>::Node* BinarySearchTree<T>::min(Node* node)
     if (!node)
         return {};
 
-    Node* result = node;
-
-    while (result->leftChild)
-        result = result->leftChild;
-
-    return result;
+    return node->min();
 }
 
 template <typename T>
@@ -345,32 +340,7 @@ typename BinarySearchTree<T>::Node* BinarySearchTree<T>::max(Node* node)
     if (!node)
         return {};
 
-    Node* result = node;
-
-    while (result->rightChild)
-        result = result->rightChild;
-
-    return result;
-}
-
-template <typename T>
-typename BinarySearchTree<T>::Node* BinarySearchTree<T>::getSuccessor(Node* node)
-{
-    if (!node)
-        return {};
-
-    if (node->rightChild)
-        return min(node->rightChild);
-
-    Node* current = node;
-    Node* parent = node->parent;
-
-    while (parent && current == parent->rightChild) {
-        current = parent;
-        parent = current->parent;
-    }
-
-    return parent;
+    return node->max();
 }
 
 template <typename T>
@@ -379,18 +349,16 @@ typename BinarySearchTree<T>::Node* BinarySearchTree<T>::getPredecessor(Node* no
     if (!node)
         return {};
 
-    if (node->leftChild)
-        return max(node->leftChild);
+    return node->getPredecessor();
+}
 
-    Node* current = node;
-    Node* parent = node->parent;
+template <typename T>
+typename BinarySearchTree<T>::Node* BinarySearchTree<T>::getSuccessor(Node* node)
+{
+    if (!node)
+        return {};
 
-    while (parent && current == parent->leftChild) {
-        current = parent;
-        parent = current->parent;
-    }
-
-    return parent;
+    return node->getSuccessor();
 }
 
 template <typename T>
