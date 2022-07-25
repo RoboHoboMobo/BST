@@ -23,7 +23,7 @@ private slots:
     void testIsEqualIfEqual();
 
     void testFindIfExist();
-    void testFindIfNotExit();
+    void testFindIfNotExist();
 
     void testEraseIfRoot();
     void testEraseIfNotRoot();
@@ -162,7 +162,7 @@ void TestBST::testFindIfExist()
     QVERIFY(bst.find(7));
 }
 
-void TestBST::testFindIfNotExit()
+void TestBST::testFindIfNotExist()
 {
     BST bst;
 

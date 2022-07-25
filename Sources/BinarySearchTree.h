@@ -57,10 +57,10 @@ public:
     void erase(const T& key);
     void clear();
 
-    Node* find(const T&) const;
-
     iterator begin();
     iterator end();
+
+    iterator find(const T&);
 
 private:
     Node* min(Node*);
@@ -94,6 +94,9 @@ public:
 
     bool operator==(const BinarySearchTreeIterator& rhs);
     bool operator!=(const BinarySearchTreeIterator& rhs);
+
+    operator bool() const;
+    bool operator!() const;
 
     PointerType operator->();
     ReferenceType operator*();

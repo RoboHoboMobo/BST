@@ -204,7 +204,7 @@ void BinarySearchTree<T>::insert(const T& key)
 template <typename T>
 void BinarySearchTree<T>::erase(const T& key)
 {
-    Node* node = find(key);
+    Node* node = find(key).operator->();
 
     if (!node)
         return;
@@ -296,7 +296,7 @@ void BinarySearchTree<T>::clear()
 }
 
 template <typename T>
-typename BinarySearchTree<T>::Node* BinarySearchTree<T>::find(const T& key) const
+typename BinarySearchTree<T>::iterator BinarySearchTree<T>::find(const T& key)
 {
     Node* current = m_root;
 
@@ -310,7 +310,7 @@ typename BinarySearchTree<T>::Node* BinarySearchTree<T>::find(const T& key) cons
             current = current->rightChild;
     }
 
-    return {};
+    return end();
 }
 
 template <typename T>
@@ -475,6 +475,18 @@ template <typename T>
 bool BinarySearchTreeIterator<T>::operator!=(const BinarySearchTreeIterator& rhs)
 {
     return !(*this == rhs);
+}
+
+template <typename T>
+BinarySearchTreeIterator<T>::operator bool() const
+{
+    return m_ptr;
+}
+
+template <typename T>
+bool BinarySearchTreeIterator<T>::operator!() const
+{
+    return !m_ptr;
 }
 
 template <typename T>
