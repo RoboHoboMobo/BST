@@ -129,6 +129,15 @@ BinarySearchTree<T>& BinarySearchTree<T>::operator=(const BinarySearchTree& rhs)
 }
 
 template <typename T>
+BinarySearchTree<T>::BinarySearchTree(std::initializer_list<T> list)
+    : m_root{}
+    , m_size{}
+{
+    for (auto& key : list)
+        insert(key);
+}
+
+template <typename T>
 BinarySearchTree<T>::~BinarySearchTree()
 {
     clear();
@@ -199,6 +208,13 @@ void BinarySearchTree<T>::insert(const T& key)
         parent->leftChild = newNode;
     else
         parent->rightChild = newNode;
+}
+
+template <typename T>
+void BinarySearchTree<T>::insert(std::initializer_list<T> list)
+{
+    for (auto& key : list)
+        insert(key);
 }
 
 template <typename T>

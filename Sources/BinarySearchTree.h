@@ -1,6 +1,8 @@
 #pragma once
 
-#include <memory>
+#include <stddef.h>
+
+#include <initializer_list>
 
 namespace Custom
 {
@@ -45,6 +47,7 @@ public:
     BinarySearchTree();
     BinarySearchTree(const BinarySearchTree&);
     BinarySearchTree& operator=(const BinarySearchTree&);
+    BinarySearchTree(std::initializer_list<T>);
     virtual ~BinarySearchTree();
 
     bool operator==(const BinarySearchTree&) const;
@@ -54,6 +57,8 @@ public:
     inline size_t size() const;
 
     void insert(const T& key);
+    void insert(std::initializer_list<T>);
+
     void erase(const T& key);
     void clear();
 

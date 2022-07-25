@@ -35,6 +35,9 @@ private slots:
     void testIteratorPrefixIncrementIfNotEmpty();
 
     void testIteratorIsEqualIfEmpty();
+
+    void testConstructorInitializerList();
+    void testInsertInitializerList();
 };
 
 TestBST::TestBST()
@@ -306,6 +309,43 @@ void TestBST::testIteratorIsEqualIfEmpty()
     BST::iterator end = bst.end();
 
     QVERIFY(begin == end);
+}
+
+void TestBST::testConstructorInitializerList()
+{
+    BST actual{4, 2, 1, 3, 10, 6, 7};
+
+    BST expected;
+
+    expected.insert(4);
+    expected.insert(2);
+    expected.insert(1);
+    expected.insert(3);
+    expected.insert(10);
+    expected.insert(6);
+    expected.insert(7);
+
+    QCOMPARE(actual.size(), expected.size());
+    QVERIFY(actual == expected);
+}
+
+void TestBST::testInsertInitializerList()
+{
+    BST actual;
+    actual.insert({4, 2, 1, 3, 10, 6, 7});
+
+    BST expected;
+
+    expected.insert(4);
+    expected.insert(2);
+    expected.insert(1);
+    expected.insert(3);
+    expected.insert(10);
+    expected.insert(6);
+    expected.insert(7);
+
+    QCOMPARE(actual.size(), expected.size());
+    QVERIFY(actual == expected);
 }
 
 QTEST_APPLESS_MAIN(TestBST)
