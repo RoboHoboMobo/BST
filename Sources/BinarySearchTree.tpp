@@ -314,7 +314,7 @@ void BinarySearchTree<ValueType>::clear()
 
 template <typename ValueType>
 typename BinarySearchTree<ValueType>::iterator
-BinarySearchTree<ValueType>::find(const ValueType& key)
+BinarySearchTree<ValueType>::find(const ValueType& key) const
 {
     Node* current = m_root;
 
@@ -332,6 +332,13 @@ BinarySearchTree<ValueType>::find(const ValueType& key)
 }
 
 template <typename ValueType>
+typename BinarySearchTree<ValueType>::iterator
+BinarySearchTree<ValueType>::getRoot() const
+{
+    return m_root;
+}
+
+template <typename ValueType>
 typename BinarySearchTree<ValueType>::iterator BinarySearchTree<ValueType>::begin()
 {
     return min(m_root);
@@ -344,7 +351,20 @@ typename BinarySearchTree<ValueType>::iterator BinarySearchTree<ValueType>::end(
 }
 
 template <typename ValueType>
-typename BinarySearchTree<ValueType>::Node* BinarySearchTree<ValueType>::min(Node* node)
+typename BinarySearchTree<ValueType>::iterator BinarySearchTree<ValueType>::begin() const
+{
+    return min(m_root);
+}
+
+template <typename ValueType>
+typename BinarySearchTree<ValueType>::iterator BinarySearchTree<ValueType>::end() const
+{
+    return nullptr;
+}
+
+template <typename ValueType>
+typename BinarySearchTree<ValueType>::Node*
+BinarySearchTree<ValueType>::min(Node* node) const
 {
     if (!node)
         return {};
@@ -353,7 +373,8 @@ typename BinarySearchTree<ValueType>::Node* BinarySearchTree<ValueType>::min(Nod
 }
 
 template <typename ValueType>
-typename BinarySearchTree<ValueType>::Node* BinarySearchTree<ValueType>::max(Node* node)
+typename BinarySearchTree<ValueType>::Node*
+BinarySearchTree<ValueType>::max(Node* node) const
 {
     if (!node)
         return {};
@@ -433,14 +454,14 @@ bool BinarySearchTree<ValueType>::isEqual(Node* lhs, Node* rhs) const
     return {};
 }
 
-template <typename ValueType>
-BinarySearchTreeIterator<ValueType>::BinarySearchTreeIterator(PointerType ptr)
+template <typename T>
+BinarySearchTreeIterator<T>::BinarySearchTreeIterator(PointerType ptr)
     : m_ptr{ptr}
 {
 }
 
-template <typename ValueType>
-BinarySearchTreeIterator<ValueType>& BinarySearchTreeIterator<ValueType>::operator++()
+template <typename T>
+BinarySearchTreeIterator<T>& BinarySearchTreeIterator<T>::operator++()
 {
     if (!m_ptr)
         return *this;
@@ -450,8 +471,8 @@ BinarySearchTreeIterator<ValueType>& BinarySearchTreeIterator<ValueType>::operat
     return *this;
 }
 
-template <typename ValueType>
-BinarySearchTreeIterator<ValueType> BinarySearchTreeIterator<ValueType>::operator++(int)
+template <typename T>
+BinarySearchTreeIterator<T> BinarySearchTreeIterator<T>::operator++(int)
 {
     if (!m_ptr)
         return *this;
@@ -462,8 +483,8 @@ BinarySearchTreeIterator<ValueType> BinarySearchTreeIterator<ValueType>::operato
     return result;
 }
 
-template <typename ValueType>
-BinarySearchTreeIterator<ValueType>& BinarySearchTreeIterator<ValueType>::operator--()
+template <typename T>
+BinarySearchTreeIterator<T>& BinarySearchTreeIterator<T>::operator--()
 {
     if (!m_ptr)
         return *this;
@@ -473,8 +494,8 @@ BinarySearchTreeIterator<ValueType>& BinarySearchTreeIterator<ValueType>::operat
     return *this;
 }
 
-template <typename ValueType>
-BinarySearchTreeIterator<ValueType> BinarySearchTreeIterator<ValueType>::operator--(int)
+template <typename T>
+BinarySearchTreeIterator<T> BinarySearchTreeIterator<T>::operator--(int)
 {
     if (!m_ptr)
         return *this;
@@ -485,43 +506,55 @@ BinarySearchTreeIterator<ValueType> BinarySearchTreeIterator<ValueType>::operato
     return result;
 }
 
-template <typename ValueType>
-bool BinarySearchTreeIterator<ValueType>::operator==(const BinarySearchTreeIterator& rhs)
+template <typename T>
+bool BinarySearchTreeIterator<T>::operator==(const BinarySearchTreeIterator& rhs)
 {
     return m_ptr == rhs.m_ptr;
 }
 
-template <typename ValueType>
-bool BinarySearchTreeIterator<ValueType>::operator!=(const BinarySearchTreeIterator& rhs)
+template <typename T>
+bool BinarySearchTreeIterator<T>::operator!=(const BinarySearchTreeIterator& rhs)
 {
     return !(*this == rhs);
 }
 
-template <typename ValueType>
-BinarySearchTreeIterator<ValueType>::operator bool() const
+template <typename T>
+BinarySearchTreeIterator<T>::operator bool() const
 {
     return m_ptr;
 }
 
-template <typename ValueType>
-bool BinarySearchTreeIterator<ValueType>::operator!() const
+template <typename T> bool BinarySearchTreeIterator<T>::operator!() const
 {
     return !m_ptr;
 }
 
-template <typename ValueType>
-typename BinarySearchTreeIterator<ValueType>::PointerType
-BinarySearchTreeIterator<ValueType>::operator->()
+template <typename T>
+typename BinarySearchTreeIterator<T>::PointerType
+BinarySearchTreeIterator<T>::operator->()
 {
     return m_ptr;
 }
 
-template <typename ValueType>
-typename BinarySearchTreeIterator<ValueType>::ReferenceType
-BinarySearchTreeIterator<ValueType>::operator*()
+template <typename T>
+typename BinarySearchTreeIterator<T>::ReferenceType
+BinarySearchTreeIterator<T>::operator*()
 {
     return m_ptr->data;
 }
+
+template <typename T>
+typename BinarySearchTreeIterator<T>::PointerType BinarySearchTreeIterator<T>::getPtr()
+{
+    return m_ptr;
+}
+
+template <typename T>
+BinarySearchTreeIterator<T>::operator PointerType()
+{
+    return m_ptr;
+}
+
 
 } // namespace Custom
 

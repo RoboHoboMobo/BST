@@ -65,11 +65,16 @@ public:
     iterator begin();
     iterator end();
 
-    iterator find(const ValueType& key);
+    iterator begin() const;
+    iterator end() const;
+
+    iterator find(const ValueType& key) const;
+
+    iterator getRoot() const;
 
 private:
-    Node* min(Node*);
-    Node* max(Node*);
+    Node* min(Node*) const;
+    Node* max(Node*) const;
     Node* getPredecessor(Node*);
     Node* getSuccessor(Node*);
 
@@ -105,6 +110,9 @@ public:
 
     PointerType operator->();
     ReferenceType operator*();
+
+    PointerType getPtr();
+    operator PointerType();
 
 private:
     PointerType m_ptr;

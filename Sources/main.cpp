@@ -1,20 +1,66 @@
 #include <iostream>
+#include <vector>
 
 #include "BinarySearchTree.h"
 
-using BST = typename Custom::BinarySearchTree<int>;
+template <typename T>
+bool isLeaf(const typename Custom::BinarySearchTree<T>::Node* node)
+{
+    return node && !node->leftChild && !node->rightChild;
+}
+
+template <typename T>
+std::vector<T> getLeafs(const Custom::BinarySearchTree<T>& bst)
+{
+    std::vector<T> result;
+
+    typename Custom::BinarySearchTree<T>::iterator it = bst.begin();
+    for (; it != bst.end(); ++it)
+        if (isLeaf<T>(it.get()))
+            result.push_back(*it);
+
+    return result;
+}
+
+template <typename T>
+void getLeafsRecursively(const typename Custom::BinarySearchTree<T>::Node* node,
+                         std::vector<T>& nodeList)
+{
+    if (!node)
+        return;
+
+    if (isLeaf<T>(node))
+        nodeList.push_back(node->data);
+
+    getLeafsRecursively(node->leftChild, nodeList);
+    getLeafsRecursively(node->rightChild, nodeList);
+}
+
+using BST = Custom::BinarySearchTree<int>;
 
 int main()
 {
-    BST bst;
+    const BST bst{10, 5, 21, 2, 7, 15, 25, 1, 3, 11, 17, 32};
 
-    bst.insert(4);
-    bst.insert(2);
-    bst.insert(1);
-    bst.insert(3);
-    bst.insert(10);
-    bst.insert(6);
-    bst.insert(7);
+    /*                 10
+     *               /    \
+     *              5      21
+     *            / \     /  \
+     *           2   7   15   25
+     *          / \     /  \   \
+     *         1   3   11  17  32
+     */
+
+    // const std::vector<int> leafs = getLeafs(bst);
+
+    // for (auto leaf : leafs)
+    //     std::cout << leaf << std::endl;
+
+    std::vector<int> leafsRec;
+    getLeafsRecursively(bst.getRoot(), leafsRec);
+
+    for (auto leaf : leafsRec)
+        std::cout << leaf << std::endl;
 
     return 0;
 }
