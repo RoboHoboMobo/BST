@@ -19,7 +19,7 @@ struct BinarySearchTreeNode
     using ValueType = T;
 
     BinarySearchTreeNode();
-    BinarySearchTreeNode(const T& key);
+    BinarySearchTreeNode(const ValueType& key);
     BinarySearchTreeNode(const BinarySearchTreeNode&) = delete;
     BinarySearchTreeNode& operator=(const BinarySearchTreeNode&) = default;
 
@@ -47,25 +47,25 @@ public:
     BinarySearchTree();
     BinarySearchTree(const BinarySearchTree&);
     BinarySearchTree& operator=(const BinarySearchTree&);
-    BinarySearchTree(std::initializer_list<T>);
+    BinarySearchTree(std::initializer_list<ValueType>);
     virtual ~BinarySearchTree();
 
     bool operator==(const BinarySearchTree&) const;
     bool operator!=(const BinarySearchTree&) const;
 
-    inline bool empty() const;
-    inline size_t size() const;
+    bool empty() const;
+    size_t size() const;
 
-    void insert(const T& key);
-    void insert(std::initializer_list<T>);
+    void insert(const ValueType& key);
+    void insert(std::initializer_list<ValueType>);
 
-    void erase(const T& key);
+    void erase(const ValueType& key);
     void clear();
 
     iterator begin();
     iterator end();
 
-    iterator find(const T&);
+    iterator find(const ValueType& key);
 
 private:
     Node* min(Node*);
