@@ -4,4 +4,4 @@ cmake_minimum_required(VERSION 3.10)
 project(BST)
 
 # add the executable
-add_executable(PrintLeaves main.cpp BinarySearchTree.cpp)
+add_executable(PrintLeaves Sources/main.cpp Sources/BinarySearchTree.cpp)
