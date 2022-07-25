@@ -1,1 +1,1 @@
-# BST
+# The Binary Search Tree implementation
