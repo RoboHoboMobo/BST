@@ -14,8 +14,8 @@ std::vector<T> getLeafs(const Custom::BinarySearchTree<T>& bst)
 {
     std::vector<T> result;
 
-    typename Custom::BinarySearchTree<T>::iterator it = bst.begin();
-    for (; it != bst.end(); ++it)
+    typename Custom::BinarySearchTree<T>::iterator it = bst.cbegin();
+    for (; it != bst.cend(); ++it)
         if (isLeaf<T>(it.get()))
             result.push_back(*it);
 
@@ -30,6 +30,20 @@ void getLeafsRecursively(const typename Custom::BinarySearchTree<T>::Node* node,
         return;
 
     if (isLeaf<T>(node))
+        nodeList.push_back(node->data);
+
+    getLeafsRecursively(node->leftChild, nodeList);
+    getLeafsRecursively(node->rightChild, nodeList);
+}
+
+template <typename T>
+void getLeafsRecursively(const typename Custom::BinarySearchTree<const T>::Node* node,
+                         std::vector<T>& nodeList)
+{
+    if (!node)
+        return;
+
+    if (isLeaf<const T>(node))
         nodeList.push_back(node->data);
 
     getLeafsRecursively(node->leftChild, nodeList);
