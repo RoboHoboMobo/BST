@@ -85,6 +85,8 @@ private:
     Node* copy(Node* node, Node* parent, size_t& counter);
     bool isEqual(Node* lhs, Node* rhs) const;
 
+    Node* doFind(const ValueType& key) const;
+
     Node* m_root;
     size_t m_size;
 };

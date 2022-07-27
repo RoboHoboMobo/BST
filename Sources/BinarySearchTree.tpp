@@ -316,38 +316,14 @@ template <typename ValueType>
 typename BinarySearchTree<ValueType>::iterator
 BinarySearchTree<ValueType>::find(const ValueType& key)
 {
-    Node* current = m_root;
-
-    while (current) {
-        if (key == current->data)
-            return current;
-
-        if (key < current->data)
-            current = current->leftChild;
-        else
-            current = current->rightChild;
-    }
-
-    return end();
+    return doFind(key);
 }
 
 template <typename ValueType>
 typename BinarySearchTree<ValueType>::const_iterator
 BinarySearchTree<ValueType>::find(const ValueType& key) const
 {
-    Node* current = m_root;
-
-    while (current) {
-        if (key == current->data)
-            return reinterpret_cast<BinarySearchTreeNode<const ValueType>*>(current);
-
-        if (key < current->data)
-            current = current->leftChild;
-        else
-            current = current->rightChild;
-    }
-
-    return nullptr;
+    return reinterpret_cast<BinarySearchTreeNode<const ValueType>*>(doFind(key));
 }
 
 template <typename ValueType>
@@ -480,6 +456,25 @@ bool BinarySearchTree<ValueType>::isEqual(Node* lhs, Node* rhs) const
                isEqual(lhs->rightChild, rhs->rightChild);
 
     return {};
+}
+
+template <typename ValueType>
+typename BinarySearchTree<ValueType>::Node*
+BinarySearchTree<ValueType>::doFind(const ValueType& key) const
+{
+    Node* current = m_root;
+
+    while (current) {
+        if (key == current->data)
+            return current;
+
+        if (key < current->data)
+            current = current->leftChild;
+        else
+            current = current->rightChild;
+    }
+
+    return nullptr;
 }
 
 template <template <typename> class BinarySearchTree, typename ValueType>
