@@ -10,7 +10,7 @@ namespace Custom
 template <typename T>
 class BinarySearchTree;
 
-template <typename BinarySearchTree>
+template <template <typename> class BinarySearchTree, typename ValueType>
 class BinarySearchTreeIterator;
 
 template <typename T>
@@ -42,7 +42,7 @@ class BinarySearchTree
 public:
     using ValueType = T;
     using Node = BinarySearchTreeNode<T>;
-    using iterator = BinarySearchTreeIterator<BinarySearchTree<T>>;
+    using iterator = BinarySearchTreeIterator<BinarySearchTree, T>;
 public:
     BinarySearchTree();
     BinarySearchTree(const BinarySearchTree&);
@@ -86,11 +86,10 @@ private:
     size_t m_size;
 };
 
-template <typename BinarySearchTree>
+template <template <typename> class BinarySearchTree, typename ValueType>
 class BinarySearchTreeIterator
 {
 public:
-    using ValueType = typename BinarySearchTree::ValueType;
     using PointerType = BinarySearchTreeNode<ValueType>*;
     using ReferenceType = ValueType&;
 public:

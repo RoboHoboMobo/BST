@@ -454,14 +454,16 @@ bool BinarySearchTree<ValueType>::isEqual(Node* lhs, Node* rhs) const
     return {};
 }
 
-template <typename T>
-BinarySearchTreeIterator<T>::BinarySearchTreeIterator(PointerType ptr)
+template <template <typename> class BinarySearchTree, typename ValueType>
+BinarySearchTreeIterator<BinarySearchTree, ValueType>::
+BinarySearchTreeIterator(PointerType ptr)
     : m_ptr{ptr}
 {
 }
 
-template <typename T>
-BinarySearchTreeIterator<T>& BinarySearchTreeIterator<T>::operator++()
+template <template <typename> class BinarySearchTree, typename ValueType>
+BinarySearchTreeIterator<BinarySearchTree, ValueType>&
+BinarySearchTreeIterator<BinarySearchTree, ValueType>::operator++()
 {
     if (!m_ptr)
         return *this;
@@ -471,8 +473,9 @@ BinarySearchTreeIterator<T>& BinarySearchTreeIterator<T>::operator++()
     return *this;
 }
 
-template <typename T>
-BinarySearchTreeIterator<T> BinarySearchTreeIterator<T>::operator++(int)
+template <template <typename> class BinarySearchTree, typename ValueType>
+BinarySearchTreeIterator<BinarySearchTree, ValueType>
+BinarySearchTreeIterator<BinarySearchTree, ValueType>::operator++(int)
 {
     if (!m_ptr)
         return *this;
@@ -483,8 +486,9 @@ BinarySearchTreeIterator<T> BinarySearchTreeIterator<T>::operator++(int)
     return result;
 }
 
-template <typename T>
-BinarySearchTreeIterator<T>& BinarySearchTreeIterator<T>::operator--()
+template <template <typename> class BinarySearchTree, typename ValueType>
+BinarySearchTreeIterator<BinarySearchTree, ValueType>&
+BinarySearchTreeIterator<BinarySearchTree, ValueType>::operator--()
 {
     if (!m_ptr)
         return *this;
@@ -494,8 +498,9 @@ BinarySearchTreeIterator<T>& BinarySearchTreeIterator<T>::operator--()
     return *this;
 }
 
-template <typename T>
-BinarySearchTreeIterator<T> BinarySearchTreeIterator<T>::operator--(int)
+template <template <typename> class BinarySearchTree, typename ValueType>
+BinarySearchTreeIterator<BinarySearchTree, ValueType>
+BinarySearchTreeIterator<BinarySearchTree, ValueType>::operator--(int)
 {
     if (!m_ptr)
         return *this;
@@ -506,51 +511,55 @@ BinarySearchTreeIterator<T> BinarySearchTreeIterator<T>::operator--(int)
     return result;
 }
 
-template <typename T>
-bool BinarySearchTreeIterator<T>::operator==(const BinarySearchTreeIterator& rhs)
+template <template <typename> class BinarySearchTree, typename ValueType>
+bool BinarySearchTreeIterator<BinarySearchTree, ValueType>::
+operator==(const BinarySearchTreeIterator& rhs)
 {
     return m_ptr == rhs.m_ptr;
 }
 
-template <typename T>
-bool BinarySearchTreeIterator<T>::operator!=(const BinarySearchTreeIterator& rhs)
+template <template <typename> class BinarySearchTree, typename ValueType>
+bool BinarySearchTreeIterator<BinarySearchTree, ValueType>::
+operator!=(const BinarySearchTreeIterator& rhs)
 {
     return !(*this == rhs);
 }
 
-template <typename T>
-BinarySearchTreeIterator<T>::operator bool() const
+template <template <typename> class BinarySearchTree, typename ValueType>
+BinarySearchTreeIterator<BinarySearchTree, ValueType>::operator bool() const
 {
     return m_ptr;
 }
 
-template <typename T> bool BinarySearchTreeIterator<T>::operator!() const
+template <template <typename> class BinarySearchTree, typename ValueType>
+bool BinarySearchTreeIterator<BinarySearchTree, ValueType>::operator!() const
 {
     return !m_ptr;
 }
 
-template <typename T>
-typename BinarySearchTreeIterator<T>::PointerType
-BinarySearchTreeIterator<T>::operator->()
+template <template <typename> class BinarySearchTree, typename ValueType>
+typename BinarySearchTreeIterator<BinarySearchTree, ValueType>::PointerType
+BinarySearchTreeIterator<BinarySearchTree, ValueType>::operator->()
 {
     return m_ptr;
 }
 
-template <typename T>
-typename BinarySearchTreeIterator<T>::ReferenceType
-BinarySearchTreeIterator<T>::operator*()
+template <template <typename> class BinarySearchTree, typename ValueType>
+typename BinarySearchTreeIterator<BinarySearchTree, ValueType>::ReferenceType
+BinarySearchTreeIterator<BinarySearchTree, ValueType>::operator*()
 {
     return m_ptr->data;
 }
 
-template <typename T>
-typename BinarySearchTreeIterator<T>::PointerType BinarySearchTreeIterator<T>::getPtr()
+template <template <typename> class BinarySearchTree, typename ValueType>
+typename BinarySearchTreeIterator<BinarySearchTree, ValueType>
+::PointerType BinarySearchTreeIterator<BinarySearchTree, ValueType>::getPtr()
 {
     return m_ptr;
 }
 
-template <typename T>
-BinarySearchTreeIterator<T>::operator PointerType()
+template <template <typename> class BinarySearchTree, typename ValueType>
+BinarySearchTreeIterator<BinarySearchTree, ValueType>::operator PointerType()
 {
     return m_ptr;
 }
