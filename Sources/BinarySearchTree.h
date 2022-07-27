@@ -10,7 +10,7 @@ namespace Custom
 template <typename T>
 class BinarySearchTree;
 
-template <typename BinarySearchTree>
+template <template <typename> class BinarySearchTree, typename ValueType>
 class BinarySearchTreeIterator;
 
 template <typename T>
@@ -42,7 +42,8 @@ class BinarySearchTree
 public:
     using ValueType = T;
     using Node = BinarySearchTreeNode<T>;
-    using iterator = BinarySearchTreeIterator<BinarySearchTree<T>>;
+    using iterator = BinarySearchTreeIterator<BinarySearchTree, T>;
+    using const_iterator = BinarySearchTreeIterator<BinarySearchTree, const T>;
 public:
     BinarySearchTree();
     BinarySearchTree(const BinarySearchTree&);
@@ -65,12 +66,14 @@ public:
     iterator begin();
     iterator end();
 
-    iterator begin() const;
-    iterator end() const;
+    const_iterator cbegin() const;
+    const_iterator cend() const;
 
-    iterator find(const ValueType& key) const;
+    iterator find(const ValueType& key);
+    const_iterator find(const ValueType& key) const;
 
-    iterator getRoot() const;
+    iterator getRoot();
+    const_iterator getRoot() const;
 
 private:
     Node* min(Node*) const;
@@ -86,11 +89,10 @@ private:
     size_t m_size;
 };
 
-template <typename BinarySearchTree>
+template <template <typename> class BinarySearchTree, typename ValueType>
 class BinarySearchTreeIterator
 {
 public:
-    using ValueType = typename BinarySearchTree::ValueType;
     using PointerType = BinarySearchTreeNode<ValueType>*;
     using ReferenceType = ValueType&;
 public:
@@ -111,8 +113,8 @@ public:
     PointerType operator->();
     ReferenceType operator*();
 
-    PointerType getPtr();
     operator PointerType();
+    PointerType get();
 
 private:
     PointerType m_ptr;
