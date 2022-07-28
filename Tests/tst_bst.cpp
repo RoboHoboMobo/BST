@@ -38,6 +38,10 @@ private slots:
 
     void testConstructorInitializerList();
     void testInsertInitializerList();
+
+    void testSwapIfEmpty();
+    void testSwapIfNotEmpty();
+    void testSwapIfSame();
 };
 
 TestBST::TestBST()
@@ -346,6 +350,40 @@ void TestBST::testInsertInitializerList()
 
     QCOMPARE(actual.size(), expected.size());
     QVERIFY(actual == expected);
+}
+
+void TestBST::testSwapIfEmpty()
+{
+    BST bst0;
+    BST bst1;
+
+    bst0.swap(bst1);
+
+    QCOMPARE(bst0, bst1);
+}
+
+void TestBST::testSwapIfNotEmpty()
+{
+    BST bst0({4, 2, 1, 3, 10, 6, 7});
+    const BST ref0(bst0);
+
+    BST bst1({1, 2, 3, 4, 5});
+    const BST ref1(bst1);
+
+    bst0.swap(bst1);
+
+    QCOMPARE(bst0, ref1);
+    QCOMPARE(bst1, ref0);
+}
+
+void TestBST::testSwapIfSame()
+{
+    BST bst({4, 2, 1, 3, 10, 6, 7});
+    const BST ref(bst);
+
+    bst.swap(bst);
+
+    QCOMPARE(bst, ref);
 }
 
 QTEST_APPLESS_MAIN(TestBST)

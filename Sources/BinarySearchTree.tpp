@@ -341,6 +341,16 @@ BinarySearchTree<ValueType>::getRoot() const
 }
 
 template <typename ValueType>
+void BinarySearchTree<ValueType>::swap(BinarySearchTree& bst)
+{
+    if (bst.m_root == m_root)
+        return;
+
+    std::swap(bst.m_root, m_root);
+    std::swap(bst.m_size, m_size);
+}
+
+template <typename ValueType>
 typename BinarySearchTree<ValueType>::iterator BinarySearchTree<ValueType>::begin()
 {
     return min(m_root);

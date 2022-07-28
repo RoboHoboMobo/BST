@@ -75,6 +75,8 @@ public:
     iterator getRoot();
     const_iterator getRoot() const;
 
+    void swap(BinarySearchTree&);
+
 private:
     Node* min(Node*) const;
     Node* max(Node*) const;
