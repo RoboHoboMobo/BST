@@ -4,13 +4,18 @@
 
 #include <initializer_list>
 
+#include <type_traits>
+
 namespace Custom
 {
 
 template <typename T>
+struct BinarySearchTreeNode;
+
+template <typename T>
 class BinarySearchTree;
 
-template <template <typename> class BinarySearchTree, typename ValueType>
+template <typename BinarySearchTreeNode>
 class BinarySearchTreeIterator;
 
 template <typename T>
@@ -35,6 +40,9 @@ struct BinarySearchTreeNode
     const BinarySearchTreeNode* getPredecessor() const;
     const BinarySearchTreeNode* getSuccessor() const;
 
+    T& getData();
+    const T& getData() const;
+
     T data;
     BinarySearchTreeNode* parent;
     BinarySearchTreeNode* leftChild;
@@ -47,8 +55,8 @@ class BinarySearchTree
 public:
     using ValueType = T;
     using Node = BinarySearchTreeNode<T>;
-    using iterator = BinarySearchTreeIterator<BinarySearchTree, T>;
-    using const_iterator = BinarySearchTreeIterator<BinarySearchTree, const T>;
+    using iterator = BinarySearchTreeIterator<Node>;
+    using const_iterator = BinarySearchTreeIterator<const Node>;
 public:
     BinarySearchTree();
     BinarySearchTree(const BinarySearchTree&);
@@ -98,12 +106,15 @@ private:
     size_t m_size;
 };
 
-template <template <typename> class BinarySearchTree, typename ValueType>
+template <typename BinarySearchTreeNode>
 class BinarySearchTreeIterator
 {
 public:
-    using PointerType = BinarySearchTreeNode<ValueType>*;
-    using ReferenceType = ValueType&;
+    using ValueType = typename BinarySearchTreeNode::ValueType;
+    using PointerType = BinarySearchTreeNode*;
+    using ReferenceType = typename std::conditional<
+    std::is_const<BinarySearchTreeNode>::value, const ValueType&, ValueType&>::type;
+
 public:
     BinarySearchTreeIterator(PointerType ptr);
 
@@ -113,8 +124,8 @@ public:
     BinarySearchTreeIterator& operator--();
     BinarySearchTreeIterator operator--(int);
 
-    bool operator==(const BinarySearchTreeIterator& rhs);
-    bool operator!=(const BinarySearchTreeIterator& rhs);
+    bool operator==(const BinarySearchTreeIterator& rhs) const;
+    bool operator!=(const BinarySearchTreeIterator& rhs) const;
 
     operator bool() const;
     bool operator!() const;
