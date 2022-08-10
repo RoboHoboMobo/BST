@@ -30,6 +30,11 @@ struct BinarySearchTreeNode
     BinarySearchTreeNode* getPredecessor();
     BinarySearchTreeNode* getSuccessor();
 
+    const BinarySearchTreeNode* min() const;
+    const BinarySearchTreeNode* max() const;
+    const BinarySearchTreeNode* getPredecessor() const;
+    const BinarySearchTreeNode* getSuccessor() const;
+
     T data;
     BinarySearchTreeNode* parent;
     BinarySearchTreeNode* leftChild;

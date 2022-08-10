@@ -35,17 +35,49 @@ void BinarySearchTreeNode<ValueType>::erase()
 template <typename ValueType>
 BinarySearchTreeNode<ValueType>* BinarySearchTreeNode<ValueType>::min()
 {
-    BinarySearchTreeNode* result = this;
+    const auto* constThis = this;
+
+    return const_cast<BinarySearchTreeNode<ValueType>*>(constThis->min());
+}
+template <typename ValueType>
+BinarySearchTreeNode<ValueType>* BinarySearchTreeNode<ValueType>::max()
+{
+    const auto* constThis = this;
+
+    return const_cast<BinarySearchTreeNode<ValueType>*>(constThis->max());
+}
+
+template <typename ValueType>
+BinarySearchTreeNode<ValueType>* BinarySearchTreeNode<ValueType>::getPredecessor()
+{
+    const auto* constThis = this;
+
+    return const_cast<BinarySearchTreeNode<ValueType>*>(constThis->getPredecessor());
+}
+
+template <typename ValueType>
+BinarySearchTreeNode<ValueType>* BinarySearchTreeNode<ValueType>::getSuccessor()
+{
+    const auto* constThis = this;
+
+    return const_cast<BinarySearchTreeNode<ValueType>*>(constThis->getSuccessor());
+}
+
+template <typename ValueType>
+const BinarySearchTreeNode<ValueType>* BinarySearchTreeNode<ValueType>::min() const
+{
+    const BinarySearchTreeNode* result = this;
 
     while (result->leftChild)
         result = result->leftChild;
 
     return result;
 }
+
 template <typename ValueType>
-BinarySearchTreeNode<ValueType>* BinarySearchTreeNode<ValueType>::max()
+const BinarySearchTreeNode<ValueType>* BinarySearchTreeNode<ValueType>::max() const
 {
-    BinarySearchTreeNode* result = this;
+    auto result = this;
 
     while (result->rightChild)
         result = result->rightChild;
@@ -54,13 +86,14 @@ BinarySearchTreeNode<ValueType>* BinarySearchTreeNode<ValueType>::max()
 }
 
 template <typename ValueType>
-BinarySearchTreeNode<ValueType>* BinarySearchTreeNode<ValueType>::getPredecessor()
+const BinarySearchTreeNode<ValueType>*
+BinarySearchTreeNode<ValueType>::getPredecessor() const
 {
     if (leftChild)
         return leftChild->max();
 
-    BinarySearchTreeNode* current = this;
-    BinarySearchTreeNode* p = parent;
+    auto current = this;
+    auto p = parent;
 
     while (p && current == p->leftChild) {
         current = p;
@@ -71,13 +104,14 @@ BinarySearchTreeNode<ValueType>* BinarySearchTreeNode<ValueType>::getPredecessor
 }
 
 template <typename ValueType>
-BinarySearchTreeNode<ValueType>* BinarySearchTreeNode<ValueType>::getSuccessor()
+const BinarySearchTreeNode<ValueType>*
+BinarySearchTreeNode<ValueType>::getSuccessor() const
 {
     if (rightChild)
         return rightChild->min();
 
-    BinarySearchTreeNode* current = this;
-    BinarySearchTreeNode* p = parent;
+    auto current = this;
+    auto p = parent;
 
     while (p && current == p->rightChild) {
         current = p;
@@ -86,6 +120,10 @@ BinarySearchTreeNode<ValueType>* BinarySearchTreeNode<ValueType>::getSuccessor()
 
     return p;
 }
+
+/**
+ * @class BinarySearchTree
+ */
 
 template <typename ValueType>
 BinarySearchTree<ValueType>::BinarySearchTree()
