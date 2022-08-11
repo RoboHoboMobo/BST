@@ -133,6 +133,38 @@ const ValueType& BinarySearchTreeNode<ValueType>::getData() const
     return  data;
 }
 
+template <typename ValueType>
+bool BinarySearchTreeNode<ValueType>::isLeaf() const
+{
+    return !leftChild && !rightChild;
+}
+
+template <typename ValueType>
+BinarySearchTreeNode<ValueType>* BinarySearchTreeNode<ValueType>::getLeftChild()
+{
+    return leftChild;
+}
+
+template <typename ValueType>
+BinarySearchTreeNode<ValueType>* BinarySearchTreeNode<ValueType>::getRightChild()
+{
+    return rightChild;
+}
+
+template <typename ValueType>
+const BinarySearchTreeNode<ValueType>*
+BinarySearchTreeNode<ValueType>::getLeftChild() const
+{
+    return leftChild;
+}
+
+template <typename ValueType>
+const BinarySearchTreeNode<ValueType>*
+BinarySearchTreeNode<ValueType>::getRightChild() const
+{
+    return rightChild;
+}
+
 /**
  * @class BinarySearchTree
  */

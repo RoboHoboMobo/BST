@@ -10,7 +10,7 @@ namespace Custom
 {
 
 template <typename T>
-struct BinarySearchTreeNode;
+class BinarySearchTreeNode;
 
 template <typename T>
 class BinarySearchTree;
@@ -19,16 +19,10 @@ template <typename BinarySearchTreeNode>
 class BinarySearchTreeIterator;
 
 template <typename T>
-struct BinarySearchTreeNode
+class BinarySearchTreeNode
 {
+public:
     using ValueType = T;
-
-    BinarySearchTreeNode();
-    BinarySearchTreeNode(const ValueType& key);
-    BinarySearchTreeNode(const BinarySearchTreeNode&) = delete;
-    BinarySearchTreeNode& operator=(const BinarySearchTreeNode&) = default;
-
-    void erase();
 
     BinarySearchTreeNode* min();
     BinarySearchTreeNode* max();
@@ -42,6 +36,24 @@ struct BinarySearchTreeNode
 
     T& getData();
     const T& getData() const;
+
+    bool isLeaf() const;
+
+    BinarySearchTreeNode* getLeftChild();
+    BinarySearchTreeNode* getRightChild();
+
+    const BinarySearchTreeNode* getLeftChild() const;
+    const BinarySearchTreeNode* getRightChild() const;
+
+    friend class BinarySearchTree<T>;
+
+private:
+    BinarySearchTreeNode();
+    BinarySearchTreeNode(const ValueType& key);
+    BinarySearchTreeNode(const BinarySearchTreeNode&) = delete;
+    BinarySearchTreeNode& operator=(const BinarySearchTreeNode&) = default;
+
+    void erase();
 
     T data;
     BinarySearchTreeNode* parent;
