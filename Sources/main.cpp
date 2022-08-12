@@ -4,9 +4,9 @@
 #include "BinarySearchTree.h"
 
 template <typename T>
-bool isLeaf(const typename Custom::BinarySearchTreeNode<T>* node)
+bool isLeaf(const Custom::BinarySearchTreeNode<T>* node)
 {
-    return node && !node->leftChild && !node->rightChild;
+    return node && node->isLeaf();
 }
 
 template <typename T>
@@ -30,10 +30,10 @@ void getLeafsRecursively(const typename Custom::BinarySearchTree<T>::Node* node,
         return;
 
     if (isLeaf(node))
-        nodeList.push_back(node->data);
+        nodeList.push_back(node->getData());
 
-    getLeafsRecursively(node->leftChild, nodeList);
-    getLeafsRecursively(node->rightChild, nodeList);
+    getLeafsRecursively(node->getLeftChild(), nodeList);
+    getLeafsRecursively(node->getRightChild(), nodeList);
 }
 
 template <typename T>
