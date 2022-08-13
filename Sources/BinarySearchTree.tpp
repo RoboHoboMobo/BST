@@ -202,11 +202,10 @@ BinarySearchTree<ValueType>::BinarySearchTree(std::initializer_list<ValueType> l
 
 template <typename ValueType>
 BinarySearchTree<ValueType>::BinarySearchTree(BinarySearchTree&& bst)
-    : m_root{bst.m_root}
-    , m_size{bst.m_size}
+    : m_root{}
+    , m_size{}
 {
-    bst.m_root = {};
-    bst.m_size = {};
+    swap(bst);
 }
 
 template <typename ValueType>
@@ -255,14 +254,7 @@ BinarySearchTree<ValueType>::operator=(BinarySearchTree&& rhs)
     if (m_root)
         clear();
 
-    if (!rhs.m_root)
-        return *this;
-
-    m_root = rhs.m_root;
-    m_size = rhs.m_size;
-
-    rhs.m_root = {};
-    rhs.m_size = {};
+    swap(rhs);
 
     return *this;
 }
