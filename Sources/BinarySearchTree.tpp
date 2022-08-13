@@ -170,7 +170,7 @@ BinarySearchTreeNode<ValueType>::getRightChild() const
  */
 
 template <typename ValueType>
-BinarySearchTree<ValueType>::BinarySearchTree()
+BinarySearchTree<ValueType>::BinarySearchTree() noexcept
     : m_root{}
     , m_size{}
 {
@@ -201,7 +201,7 @@ BinarySearchTree<ValueType>::BinarySearchTree(std::initializer_list<ValueType> l
 }
 
 template <typename ValueType>
-BinarySearchTree<ValueType>::BinarySearchTree(BinarySearchTree&& bst)
+BinarySearchTree<ValueType>::BinarySearchTree(BinarySearchTree&& bst) noexcept
     : m_root{}
     , m_size{}
 {
@@ -246,7 +246,7 @@ BinarySearchTree<ValueType>::operator=(std::initializer_list<ValueType> list)
 
 template <typename ValueType>
 BinarySearchTree<ValueType>&
-BinarySearchTree<ValueType>::operator=(BinarySearchTree&& rhs)
+BinarySearchTree<ValueType>::operator=(BinarySearchTree&& rhs) noexcept
 {
     if (rhs.m_root == m_root)
         return *this;
@@ -260,7 +260,7 @@ BinarySearchTree<ValueType>::operator=(BinarySearchTree&& rhs)
 }
 
 template <typename ValueType>
-BinarySearchTree<ValueType>::~BinarySearchTree()
+BinarySearchTree<ValueType>::~BinarySearchTree() noexcept
 {
     clear();
 }
@@ -288,13 +288,13 @@ bool BinarySearchTree<ValueType>::operator!=(const BinarySearchTree& rhs) const
 
 
 template <typename ValueType>
-bool BinarySearchTree<ValueType>::empty() const
+bool BinarySearchTree<ValueType>::empty() const noexcept
 {
     return m_size == 0;
 }
 
 template <typename ValueType>
-size_t BinarySearchTree<ValueType>::size() const
+size_t BinarySearchTree<ValueType>::size() const noexcept
 {
     return m_size;
 }
@@ -423,7 +423,7 @@ void BinarySearchTree<ValueType>::erase(const ValueType& key)
 }
 
 template <typename ValueType>
-void BinarySearchTree<ValueType>::clear()
+void BinarySearchTree<ValueType>::clear() noexcept
 {
     clear(m_root);
 
@@ -449,20 +449,20 @@ BinarySearchTree<ValueType>::find(const ValueType& key) const
 
 template <typename ValueType>
 typename BinarySearchTree<ValueType>::iterator
-BinarySearchTree<ValueType>::getRoot()
+BinarySearchTree<ValueType>::getRoot() noexcept
 {
     return m_root;
 }
 
 template <typename ValueType>
 typename BinarySearchTree<ValueType>::const_iterator
-BinarySearchTree<ValueType>::getRoot() const
+BinarySearchTree<ValueType>::getRoot() const noexcept
 {
     return m_root;
 }
 
 template <typename ValueType>
-void BinarySearchTree<ValueType>::swap(BinarySearchTree& bst)
+void BinarySearchTree<ValueType>::swap(BinarySearchTree& bst) noexcept
 {
     if (bst.m_root == m_root)
         return;
@@ -472,27 +472,28 @@ void BinarySearchTree<ValueType>::swap(BinarySearchTree& bst)
 }
 
 template <typename ValueType>
-typename BinarySearchTree<ValueType>::iterator BinarySearchTree<ValueType>::begin()
+typename BinarySearchTree<ValueType>::iterator
+BinarySearchTree<ValueType>::begin() noexcept
 {
     return min(m_root);
 }
 
 template <typename ValueType>
-typename BinarySearchTree<ValueType>::iterator BinarySearchTree<ValueType>::end()
+typename BinarySearchTree<ValueType>::iterator BinarySearchTree<ValueType>::end() noexcept
 {
     return nullptr;
 }
 
 template <typename ValueType>
 typename BinarySearchTree<ValueType>::const_iterator
-BinarySearchTree<ValueType>::cbegin() const
+BinarySearchTree<ValueType>::cbegin() const noexcept
 {
     return min(m_root);
 }
 
 template <typename ValueType>
 typename BinarySearchTree<ValueType>::const_iterator
-BinarySearchTree<ValueType>::cend() const
+BinarySearchTree<ValueType>::cend() const noexcept
 {
     return nullptr;
 }

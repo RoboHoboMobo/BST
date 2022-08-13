@@ -72,42 +72,42 @@ public:
     using iterator = BinarySearchTreeIterator<Node>;
     using const_iterator = BinarySearchTreeIterator<const Node>;
 public:
-    BinarySearchTree();
+    BinarySearchTree() noexcept;
     BinarySearchTree(const BinarySearchTree&);
     BinarySearchTree(std::initializer_list<ValueType>);
-    BinarySearchTree(BinarySearchTree&&);
+    BinarySearchTree(BinarySearchTree&&) noexcept;
 
     BinarySearchTree& operator=(const BinarySearchTree&);
     BinarySearchTree& operator=(std::initializer_list<ValueType>);
-    BinarySearchTree& operator=(BinarySearchTree&&);
+    BinarySearchTree& operator=(BinarySearchTree&&) noexcept;
 
-    virtual ~BinarySearchTree();
+    virtual ~BinarySearchTree() noexcept;
 
     bool operator==(const BinarySearchTree&) const;
     bool operator!=(const BinarySearchTree&) const;
 
-    bool empty() const;
-    size_t size() const;
+    bool empty() const noexcept;
+    size_t size() const noexcept;
 
     void insert(const ValueType& key);
     void insert(std::initializer_list<ValueType>);
 
     void erase(const ValueType& key);
-    void clear();
+    void clear() noexcept;
 
-    iterator begin();
-    iterator end();
+    iterator begin() noexcept;
+    iterator end() noexcept;
 
-    const_iterator cbegin() const;
-    const_iterator cend() const;
+    const_iterator cbegin() const noexcept;
+    const_iterator cend() const noexcept;
 
     iterator find(const ValueType& key);
     const_iterator find(const ValueType& key) const;
 
-    iterator getRoot();
-    const_iterator getRoot() const;
+    iterator getRoot() noexcept;
+    const_iterator getRoot() const noexcept;
 
-    void swap(BinarySearchTree&);
+    void swap(BinarySearchTree&) noexcept;
 
 private:
     Node* min(Node*) const;
