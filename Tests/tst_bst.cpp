@@ -42,6 +42,11 @@ private slots:
     void testSwapIfEmpty();
     void testSwapIfNotEmpty();
     void testSwapIfSame();
+
+    void testMoveCtor();
+    void testMoveAssignment();
+    void testMoveAssignmentWithInitializerList();
+    void testMoveTempObject();
 };
 
 TestBST::TestBST()
@@ -384,6 +389,54 @@ void TestBST::testSwapIfSame()
     bst.swap(bst);
 
     QCOMPARE(bst, ref);
+}
+
+void TestBST::testMoveCtor()
+{
+    BST bst({4, 2, 1, 3, 10, 6, 7});
+    const BST ref(bst);
+
+    BST actual{std::move(bst)};
+
+    QCOMPARE(actual, ref);
+    QCOMPARE(bst.size(), 0u);
+}
+
+void TestBST::testMoveAssignment()
+{
+    BST bst({4, 2, 1, 3, 10, 6, 7});
+    const BST ref(bst);
+
+    BST actual{1, 2, 3};
+
+    actual = std::move(bst);
+
+    QCOMPARE(actual, ref);
+    QCOMPARE(bst.size(), 0u);
+}
+
+void TestBST::testMoveAssignmentWithInitializerList()
+{
+    const BST ref{5, 6, 7};
+
+    BST actual{1, 2, 3};
+
+    actual = {5, 6, 7};
+
+    QCOMPARE(actual, ref);
+    QCOMPARE(actual.size(), ref.size());
+}
+
+void TestBST::testMoveTempObject()
+{
+    const BST ref{5, 6, 7};
+
+    BST actual{1, 2, 3};
+
+    actual = BST{ref};
+
+    QCOMPARE(actual, ref);
+    QCOMPARE(actual.size(), ref.size());
 }
 
 QTEST_APPLESS_MAIN(TestBST)

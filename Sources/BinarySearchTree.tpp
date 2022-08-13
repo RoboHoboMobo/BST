@@ -192,6 +192,24 @@ BinarySearchTree<ValueType>::BinarySearchTree(const BinarySearchTree& bst)
 }
 
 template <typename ValueType>
+BinarySearchTree<ValueType>::BinarySearchTree(std::initializer_list<ValueType> list)
+    : m_root{}
+    , m_size{}
+{
+    for (auto key : list)
+        insert(key);
+}
+
+template <typename ValueType>
+BinarySearchTree<ValueType>::BinarySearchTree(BinarySearchTree&& bst)
+    : m_root{bst.m_root}
+    , m_size{bst.m_size}
+{
+    bst.m_root = {};
+    bst.m_size = {};
+}
+
+template <typename ValueType>
 BinarySearchTree<ValueType>&
 BinarySearchTree<ValueType>::operator=(const BinarySearchTree& rhs)
 {
@@ -199,6 +217,9 @@ BinarySearchTree<ValueType>::operator=(const BinarySearchTree& rhs)
         return *this;
 
     clear();
+
+    if (!rhs.m_root)
+        return *this;
 
     Node* rhsRoot = rhs.m_root;
     Node* node = copy(rhsRoot, {}, m_size);
@@ -212,12 +233,38 @@ BinarySearchTree<ValueType>::operator=(const BinarySearchTree& rhs)
 }
 
 template <typename ValueType>
-BinarySearchTree<ValueType>::BinarySearchTree(std::initializer_list<ValueType> list)
-    : m_root{}
-    , m_size{}
+BinarySearchTree<ValueType>&
+BinarySearchTree<ValueType>::operator=(std::initializer_list<ValueType> list)
 {
+    if (m_root)
+        clear();
+
     for (auto key : list)
         insert(key);
+
+    return *this;
+}
+
+template <typename ValueType>
+BinarySearchTree<ValueType>&
+BinarySearchTree<ValueType>::operator=(BinarySearchTree&& rhs)
+{
+    if (rhs.m_root == m_root)
+        return *this;
+
+    if (m_root)
+        clear();
+
+    if (!rhs.m_root)
+        return *this;
+
+    m_root = rhs.m_root;
+    m_size = rhs.m_size;
+
+    rhs.m_root = {};
+    rhs.m_size = {};
+
+    return *this;
 }
 
 template <typename ValueType>

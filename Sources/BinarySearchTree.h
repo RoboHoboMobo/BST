@@ -51,7 +51,9 @@ private:
     BinarySearchTreeNode();
     BinarySearchTreeNode(const ValueType& key);
     BinarySearchTreeNode(const BinarySearchTreeNode&) = delete;
-    BinarySearchTreeNode& operator=(const BinarySearchTreeNode&) = default;
+    BinarySearchTreeNode(BinarySearchTreeNode&&) = delete;
+    BinarySearchTreeNode& operator=(const BinarySearchTreeNode&) = delete;
+    BinarySearchTreeNode& operator=(BinarySearchTreeNode&&) = delete;
 
     void erase();
 
@@ -72,8 +74,13 @@ public:
 public:
     BinarySearchTree();
     BinarySearchTree(const BinarySearchTree&);
-    BinarySearchTree& operator=(const BinarySearchTree&);
     BinarySearchTree(std::initializer_list<ValueType>);
+    BinarySearchTree(BinarySearchTree&&);
+
+    BinarySearchTree& operator=(const BinarySearchTree&);
+    BinarySearchTree& operator=(std::initializer_list<ValueType>);
+    BinarySearchTree& operator=(BinarySearchTree&&);
+
     virtual ~BinarySearchTree();
 
     bool operator==(const BinarySearchTree&) const;
